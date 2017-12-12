@@ -1,22 +1,27 @@
 import { injectable, inject } from "inversify";
 import { CommandContribution, CommandRegistry, MenuContribution, MenuModelRegistry, MessageService } from "@theia/core/lib/common";
-import { CommonMenus } from "@theia/core/lib/browser";
+import { CommonMenus, FrontendApplication, WidgetManager } from "@theia/core/lib/browser";
 
 export const LspDepGraphCommand = {
     id: 'LspDepGraph.command',
     label: "Shows a message"
 };
 
+export const FACTORY_ID = "lsp-dep-graph-widget";
+
 @injectable()
 export class LspDepGraphCommandContribution implements CommandContribution {
 
-    constructor(
-        @inject(MessageService) private readonly messageService: MessageService,
-    ) { }
+    @inject(MessageService) protected readonly messageService: MessageService;
+    @inject(FrontendApplication) protected readonly frontendApp: FrontendApplication;
+    @inject(WidgetManager) protected readonly widgetManager: WidgetManager;
 
     registerCommands(registry: CommandRegistry): void {
         registry.registerCommand(LspDepGraphCommand, {
-            execute: () => this.messageService.info('Hello World!')
+            execute: async () => {
+                const widget = await this.widgetManager.getOrCreateWidget(FACTORY_ID);
+                this.frontendApp.shell.addToMainArea(widget);
+            }
         });
     }
 }
@@ -31,3 +36,4 @@ export class LspDepGraphMenuContribution implements MenuContribution {
         });
     }
 }
+

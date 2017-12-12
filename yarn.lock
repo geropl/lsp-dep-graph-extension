@@ -196,6 +196,12 @@
     "@theia/filesystem" "^0.3.0"
     "@theia/workspace" "^0.3.0"
 
+"@theia/messages@latest":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@theia/messages/-/messages-0.3.0.tgz#0caaa5c1d6bbf1130445392e9d7861214435ef06"
+  dependencies:
+    "@theia/core" "^0.3.0"
+
 "@theia/monaco@^0.3.1", "@theia/monaco@latest":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@theia/monaco/-/monaco-0.3.1.tgz#ac1e76ff1af677469b46260b814886cd440096d0"
@@ -5029,7 +5035,7 @@ xtend@~2.1.1:
   dependencies:
     object-keys "~0.4.0"
 
-"xterm@github:theia-ide/xterm.js#v3-built":
+xterm@theia-ide/xterm.js#v3-built:
   version "2.9.1"
   resolved "https://codeload.github.com/theia-ide/xterm.js/tar.gz/e2aca68c8d5a64320d26b889d2c8d3f4510d4805"
 

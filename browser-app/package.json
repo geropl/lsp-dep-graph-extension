@@ -15,6 +15,7 @@
     "@theia/markers": "latest",
     "@theia/monaco": "latest",
     "@theia/typescript": "latest",
+    "@theia/messages": "latest",
     "lsp-dep-graph-extension": "0.0.0"
   },
   "devDependencies": {
