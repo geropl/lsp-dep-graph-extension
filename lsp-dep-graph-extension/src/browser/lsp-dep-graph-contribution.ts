@@ -1,6 +1,11 @@
+import { LspDepGraphWidget } from './lsp-dep-graph-widget';
+import { createSprottyContainer } from './sprotty-di-config';
 import { injectable, inject } from "inversify";
 import { CommandContribution, CommandRegistry, MenuContribution, MenuModelRegistry, MessageService } from "@theia/core/lib/common";
-import { CommonMenus, FrontendApplication, WidgetManager } from "@theia/core/lib/browser";
+import { FrontendApplication, WidgetManager } from "@theia/core/lib/browser";
+import { EDITOR_CONTEXT_MENU, EditorManager } from "@theia/editor/lib/browser";
+import { LspDepGraphGenerator } from "./lsp-dep-graph-generator";
+import { TYPES, LocalModelSource } from 'sprotty/lib';
 
 export const LspDepGraphCommand = {
     id: 'LspDepGraph.command',
@@ -15,12 +20,25 @@ export class LspDepGraphCommandContribution implements CommandContribution {
     @inject(MessageService) protected readonly messageService: MessageService;
     @inject(FrontendApplication) protected readonly frontendApp: FrontendApplication;
     @inject(WidgetManager) protected readonly widgetManager: WidgetManager;
+    @inject(EditorManager) protected readonly editorManager: EditorManager;
+    @inject(LspDepGraphGenerator) protected readonly generator: LspDepGraphGenerator;
 
     registerCommands(registry: CommandRegistry): void {
         registry.registerCommand(LspDepGraphCommand, {
             execute: async () => {
-                const widget = await this.widgetManager.getOrCreateWidget(FACTORY_ID);
-                this.frontendApp.shell.addToMainArea(widget);
+                if(this.editorManager.activeEditor){
+                    const widget = await this.widgetManager.getOrCreateWidget<LspDepGraphWidget>(FACTORY_ID);
+                    this.frontendApp.shell.addToMainArea(widget);
+
+                    const baseId = widget.svgId;
+                    const container = createSprottyContainer(baseId);
+
+                    const uri = this.editorManager.activeEditor.editor.uri;
+                    const position = this.editorManager.activeEditor.editor.cursor;
+                    const model = await this.generator.generate(uri, position);
+                    const modelSource = container.get<LocalModelSource>(TYPES.ModelSource);
+                    modelSource.setModel(model);
+                }
             }
         });
     }
@@ -30,9 +48,9 @@ export class LspDepGraphCommandContribution implements CommandContribution {
 export class LspDepGraphMenuContribution implements MenuContribution {
 
     registerMenus(menus: MenuModelRegistry): void {
-        menus.registerMenuAction(CommonMenus.EDIT_FIND, {
+        menus.registerMenuAction(EDITOR_CONTEXT_MENU, {
             commandId: LspDepGraphCommand.id,
-            label: 'Say Hello'
+            label: 'Show call hierarchy'
         });
     }
 }
