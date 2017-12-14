@@ -13,6 +13,10 @@ import { WidgetFactory } from '@theia/core/lib/browser';
 import { LspDepGraphWidgetFactory } from './lsp-dep-graph-widget-factory';
 import { LspDepGraphGenerator } from './lsp-dep-graph-generator';
 
+import '../../src/browser/styles/index.css';
+import 'sprotty/css/sprotty.css';
+import 'theia-sprotty/css/theia-sprotty.css';
+
 export default new ContainerModule(bind => {
     // add your contribution bindings here
 

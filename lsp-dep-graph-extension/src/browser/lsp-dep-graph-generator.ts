@@ -16,7 +16,28 @@ export class LspDepGraphGenerator {
             children: [
                 {
                     type: "node",
-                    id: "firstChild"
+                    id: "node1",
+                    label: "Some file",
+                    position: {
+                        x: 100,
+                        y: 100
+                    }
+                },
+                {
+                    type: "node",
+                    id: "node2",
+                    label: "Some other file",
+                    position: {
+                        x: 80,
+                        y: 150
+                    }
+                },
+                {
+                    type: "edge",
+                    id: "edge1",
+                    label: "depends on",
+                    sourceId: "node1",
+                    targetId: "node2"
                 }
             ]
         })

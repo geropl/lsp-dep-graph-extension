@@ -1,0 +1,23 @@
+
+body {
+    background-color: #333333;
+    /* width: 100%;
+    height: 100%; */
+}
+
+.dep-node {
+    fill: #189ec7;
+}
+.dep-node-text {
+    stroke: #a613b9;
+    font-size: 0.8em;
+}
+
+.dep-edge {
+    stroke: #18589c;
+    fill: #18589c;
+}
+.dep-arrow {
+    stroke: #18589c;
+    fill: #18589c;
+}
