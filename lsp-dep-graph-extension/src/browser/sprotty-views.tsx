@@ -19,6 +19,7 @@ export class DependencyNodeView extends RectangularNodeView {
                 y={node.bounds.height / 2 + 5}
                 class-text={true}
                 class-node-text={true}>{node.id}</text>
+            { context.renderChildren(node) }
         </g>
     }
 }
